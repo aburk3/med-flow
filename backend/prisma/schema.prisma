@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PatientFlowStage {
+  InitialContact
+  FirstMeeting
+  ScheduledSurgery
+  PreOpClearance
+  PostOpFollowUp
+}
+
+enum AppointmentStatus {
+  completed
+  canceled
+  no_show
+  rescheduled
+  scheduled
+}
+
+model Physician {
+  id           String        @id
+  name         String
+  specialty    String
+  location     String
+  patients     Patient[]
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("physicians")
+}
+
+model Patient {
+  id                 String            @id
+  name               String
+  stage              PatientFlowStage
+  primaryPhysicianId String            @map("primary_physician_id")
+  primaryPhysician   Physician         @relation(fields: [primaryPhysicianId], references: [id])
+  appointments       Appointment[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@index([primaryPhysicianId])
+  @@map("patients")
+}
+
+model Appointment {
+  id          String            @id
+  patientId   String            @map("patient_id")
+  physicianId String            @map("physician_id")
+  date        DateTime          @db.Timestamptz(3)
+  type        String
+  location    String
+  status      AppointmentStatus
+  patient     Patient           @relation(fields: [patientId], references: [id])
+  physician   Physician         @relation(fields: [physicianId], references: [id])
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([patientId])
+  @@index([physicianId])
+  @@index([date])
+  @@index([status])
+  @@map("appointments")
+}

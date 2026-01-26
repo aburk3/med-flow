@@ -3,22 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "VITE_CJS_IGNORE_WARNING=1 vite",
+    "dev:all": "concurrently -k \"npm run dev\" \"npm --prefix backend run dev\"",
+    "build": "VITE_CJS_IGNORE_WARNING=1 vite build",
+    "preview": "VITE_CJS_IGNORE_WARNING=1 vite preview --port 3100",
+    "lint": "eslint src vite.config.ts playwright.config.ts",
+    "test": "VITE_CJS_IGNORE_WARNING=1 vitest",
+    "test:run": "VITE_CJS_IGNORE_WARNING=1 vitest run",
+    "test:e2e": "VITE_CJS_IGNORE_WARNING=1 playwright test",
+    "test:e2e:ui": "VITE_CJS_IGNORE_WARNING=1 playwright test --ui"
   },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "react-router-dom": "^6.30.3",
+    "styled-components": "^6.3.8"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@playwright/test": "^1.57.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/styled-components": "^5.1.36",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "jsdom": "^26.1.0",
+    "typescript": "^5",
+    "vite": "^6.4.1",
+    "vitest": "^3.2.4"
   }
 }
