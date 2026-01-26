@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GlassPanel } from "@/components/Glass";
+import { GlassPanel } from "@/styles/glass";
 
 const DetailCardContainer = styled(GlassPanel)`
   display: flex;

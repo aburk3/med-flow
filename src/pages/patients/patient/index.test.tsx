@@ -1,6 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import { vi } from "vitest";
-import PatientDetailPage from "@/pages/patients/patient";
+import PatientDetailPage from "@/pages/patients/patient/PatientDetailPage";
 import { renderWithProviders } from "@/test/test-utils";
 import { fetchAppointments, fetchPatients, fetchPhysicians } from "@/lib/api";
 

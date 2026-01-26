@@ -21,9 +21,8 @@ const GlassPanel = styled.section`
       transparent 55%,
       rgba(255, 255, 255, 0.12)
     );
-    opacity: 0.55;
-    pointer-events: none;
     opacity: 0.35;
+    pointer-events: none;
     transition: opacity 0.35s ease;
   }
 

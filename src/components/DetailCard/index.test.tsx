@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import { DetailCard } from "@/components/DetailCard";
+import { DetailCard } from "@/components/DetailCard/DetailCard";
 import { DetailBadge } from "@/components/DetailCard/type";
 import { renderWithProviders } from "@/test/test-utils";
 

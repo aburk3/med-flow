@@ -1,4 +1,4 @@
-import { Badge, SubtleText } from "@/components/Glass";
+import { Badge, SubtleText } from "@/styles/glass";
 import { DetailBadge } from "@/components/DetailCard/type";
 import { DetailCardContainer, DetailTitle } from "./styles";
 
