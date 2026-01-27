@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  fetchAppointments,
-  fetchPatients,
-  fetchPhysicians,
-} from "@/lib/api";
+import { fetchAppointments, fetchPatients, fetchPhysicians } from "@/lib/api";
 import type { Appointment, Patient, Physician } from "@/types/api";
 import { PatientDetailStatus } from "@/pages/patients/patient/type";
 
@@ -30,7 +26,7 @@ const usePatientDetail = (id: string | undefined) => {
     setAppointments([]);
 
     Promise.all([fetchPatients(), fetchPhysicians(), fetchAppointments()])
-      .then(([patients, physicians, appointmentsResponse]) => {
+      .then(async ([patients, physicians, appointmentsResponse]) => {
         if (!isMounted) {
           return;
         }
@@ -53,6 +49,7 @@ const usePatientDetail = (id: string | undefined) => {
         setPatient(matchingPatient);
         setPhysician(assignedPhysician);
         setAppointments(patientAppointments);
+
         setStatus(PatientDetailStatus.Ready);
       })
       .catch(() => {

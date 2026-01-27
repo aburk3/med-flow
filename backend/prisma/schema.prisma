@@ -23,6 +23,19 @@ enum AppointmentStatus {
   scheduled
 }
 
+enum PatientIntakeStatus {
+  sent
+  complete
+  incomplete
+}
+
+enum AppointmentFlowStepStatus {
+  not_started
+  in_progress
+  incomplete
+  complete
+}
+
 model Physician {
   id           String        @id
   name         String
@@ -40,6 +53,10 @@ model Patient {
   id                 String            @id
   name               String
   stage              PatientFlowStage
+  dateOfBirth        DateTime          @map("date_of_birth") @db.Date
+  phoneNumber        String            @map("phone_number")
+  emergencyContact   String            @map("emergency_contact")
+  intakeStatus       PatientIntakeStatus @default(sent) @map("intake_status")
   primaryPhysicianId String            @map("primary_physician_id")
   primaryPhysician   Physician         @relation(fields: [primaryPhysicianId], references: [id])
   appointments       Appointment[]
@@ -60,6 +77,7 @@ model Appointment {
   status      AppointmentStatus
   patient     Patient           @relation(fields: [patientId], references: [id])
   physician   Physician         @relation(fields: [physicianId], references: [id])
+  flow        AppointmentFlow?
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
@@ -68,4 +86,30 @@ model Appointment {
   @@index([date])
   @@index([status])
   @@map("appointments")
+}
+
+model AppointmentFlow {
+  id            String               @id
+  appointmentId String               @unique @map("appointment_id")
+  appointment   Appointment          @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  steps         AppointmentFlowStep[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  @@map("appointment_flows")
+}
+
+model AppointmentFlowStep {
+  id        String                  @id
+  flowId    String                  @map("flow_id")
+  flow      AppointmentFlow         @relation(fields: [flowId], references: [id], onDelete: Cascade)
+  title     String
+  order     Int
+  status    AppointmentFlowStepStatus
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+
+  @@index([flowId])
+  @@unique([flowId, order])
+  @@map("appointment_flow_steps")
 }

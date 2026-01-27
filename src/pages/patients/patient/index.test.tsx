@@ -17,6 +17,10 @@ describe("Patient detail page", () => {
         id: "patient-003",
         name: "Noah Kim",
         stage: "Scheduled Surgery",
+        dateOfBirth: "1979-11-05",
+        phoneNumber: "(415) 555-0113",
+        emergencyContact: "Hana Kim · (415) 555-0133",
+        intakeStatus: "complete",
         primaryPhysicianId: "physician-001",
         risk: "high",
         riskReason: "Missed 4 appointments.",
@@ -41,7 +45,6 @@ describe("Patient detail page", () => {
         status: "scheduled",
       },
     ]);
-
     renderWithProviders(<PatientDetailPage />, {
       route: "/patients/patient-003",
       path: "/patients/:id",
@@ -55,7 +58,9 @@ describe("Patient detail page", () => {
     ).toBeVisible();
     expect(screen.getByText("High risk")).toBeVisible();
     expect(screen.getByText("Missed 4 appointments.")).toBeVisible();
-
+    expect(screen.getByText(/Intake:\s+Complete/)).toBeVisible();
+    expect(screen.getByText(/Phone:\s+\(415\) 555-0113/)).toBeVisible();
+    expect(screen.getByText(/Emergency:\s+Hana Kim/)).toBeVisible();
     const table = screen.getByRole("table");
     expect(
       within(table).getByRole("columnheader", { name: "Status" })

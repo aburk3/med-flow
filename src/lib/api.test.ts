@@ -30,8 +30,12 @@ describe("api helpers", () => {
     const fromDate = new Date("2026-01-28T00:00:00.000Z");
     await fetchDashboard({ fromDate });
 
+    const query = new URLSearchParams({
+      from: fromDate.toISOString(),
+    }).toString();
+
     expect(fetchMock).toHaveBeenCalledWith(
-      `http://localhost:4000/api/dashboard?from=${fromDate.toISOString()}`,
+      `http://localhost:4000/api/dashboard?${query}`,
       { cache: "no-store" }
     );
   });

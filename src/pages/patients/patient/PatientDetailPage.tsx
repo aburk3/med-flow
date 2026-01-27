@@ -11,10 +11,27 @@ import { PatientSidebar } from "@/pages/patients/patient/components/PatientSideb
 import { PatientRiskSummary } from "@/pages/patients/patient/components/PatientRiskSummary";
 import { PatientAppointmentsTable } from "@/pages/patients/patient/components/PatientAppointmentsTable";
 
+const formatIntakeStatus = (status: string) =>
+  status
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
+const formatDate = (value: string) => {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};
+
 const PatientDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { appointments, effectiveStatus, patient, physician } =
-    usePatientDetail(id);
+  const { appointments, effectiveStatus, patient, physician } = usePatientDetail(id);
 
   const detailLines = useMemo(() => {
     if (effectiveStatus === PatientDetailStatus.NotFound) {
@@ -26,6 +43,12 @@ const PatientDetailPage = () => {
     }
 
     return [
+      `${PATIENT_DETAIL_TEXT.dobLabel} ${formatDate(patient.dateOfBirth)}`,
+      `${PATIENT_DETAIL_TEXT.phoneLabel} ${patient.phoneNumber}`,
+      `${PATIENT_DETAIL_TEXT.emergencyContactLabel} ${patient.emergencyContact}`,
+      `${PATIENT_DETAIL_TEXT.intakeLabel} ${formatIntakeStatus(
+        patient.intakeStatus
+      )}`,
       `${PATIENT_DETAIL_TEXT.stageLabel} ${patient.stage}`,
       physician?.name ?? PATIENT_DETAIL_TEXT.assignedPhysicianFallback,
     ];

@@ -16,12 +16,18 @@ export interface Patient {
   id: string;
   name: string;
   stage: PatientFlowStage;
+  dateOfBirth: string;
+  phoneNumber: string;
+  emergencyContact: string;
+  intakeStatus: PatientIntakeStatus;
   primaryPhysicianId: string;
   risk: PatientRisk;
   riskReason: string;
 }
 
 export type PatientRisk = "low" | "medium" | "high";
+
+export type PatientIntakeStatus = "sent" | "complete" | "incomplete";
 
 export type AppointmentStatus =
   | "completed"
@@ -38,6 +44,32 @@ export interface Appointment {
   type: string;
   location: string;
   status: AppointmentStatus;
+}
+
+export type AppointmentFlowStepStatus =
+  | "not_started"
+  | "in_progress"
+  | "incomplete"
+  | "complete";
+
+export interface AppointmentFlowStep {
+  id: string;
+  title: string;
+  order: number;
+  status: AppointmentFlowStepStatus;
+}
+
+export interface AppointmentFlow {
+  id: string;
+  appointmentId: string;
+  steps: AppointmentFlowStep[];
+}
+
+export interface AppointmentDetail {
+  appointment: Appointment;
+  patient: Patient;
+  physician: Physician;
+  flow: AppointmentFlow;
 }
 
 export interface DashboardPayload {
