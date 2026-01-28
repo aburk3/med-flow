@@ -28,9 +28,4 @@ const RiskLabel = styled.span`
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
-export {
-  RiskIndicator,
-  RiskLabel,
-  RiskSummary,
-  RiskTone,
-};
+export { RiskIndicator, RiskLabel, RiskSummary, RiskTone };

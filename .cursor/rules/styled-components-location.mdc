@@ -1,0 +1,15 @@
+---
+description: Keep styled components colocated in styles.ts
+alwaysApply: true
+---
+
+# Styled Components Location
+
+Always place styled components in a `styles.ts` file within the same directory as the component they style.
+
+```typescript
+// Example structure:
+// MyComponent/
+//   index.tsx
+//   styles.ts
+```

@@ -5,8 +5,8 @@ import {
   RiskLabel,
   RiskSummary,
   RiskTone,
-} from "@/pages/patients/patient/styles";
-import { PATIENT_DETAIL_TEXT } from "@/pages/patients/patient/constants";
+} from "@/pages/Patients/PatientDetail/styles";
+import { PATIENT_DETAIL_TEXT } from "@/pages/Patients/PatientDetail/constants";
 
 type PatientRiskSummaryProps = {
   label: string;

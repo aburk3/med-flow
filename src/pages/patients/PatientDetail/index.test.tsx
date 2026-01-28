@@ -1,6 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import { vi } from "vitest";
-import PatientDetailPage from "@/pages/patients/patient/PatientDetailPage";
+import PatientDetail from "@/pages/Patients/PatientDetail";
 import { renderWithProviders } from "@/test/test-utils";
 import { fetchAppointments, fetchPatients, fetchPhysicians } from "@/lib/api";
 
@@ -45,7 +45,7 @@ describe("Patient detail page", () => {
         status: "scheduled",
       },
     ]);
-    renderWithProviders(<PatientDetailPage />, {
+    renderWithProviders(<PatientDetail />, {
       route: "/patients/patient-003",
       path: "/patients/:id",
     });

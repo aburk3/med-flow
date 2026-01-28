@@ -1,6 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import { vi } from "vitest";
-import Dashboard from "@/pages/dashboard/DashboardPage";
+import Dashboard from "@/pages/Dashboard";
 import type { DashboardPayload } from "@/types/api";
 import { renderWithProviders } from "@/test/test-utils";
 import { fetchDashboard } from "@/lib/api";

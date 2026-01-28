@@ -10,6 +10,8 @@ Liquid-glass inspired patient flow dashboard built with Vite, React, and TypeScr
 ## Run frontend + backend together
 
 ```bash
+npm install
+npm --prefix backend install
 npm run dev:all
 ```
 
@@ -24,6 +26,14 @@ npm run dev
 
 # Backend
 npm --prefix backend run dev
+```
+
+## OpenAPI type sync
+
+The OpenAPI definition lives in `openapi.yaml`. Generate client/server types:
+
+```bash
+npm run openapi:typegen
 ```
 
 ## Database (Postgres)

@@ -17,5 +17,13 @@
     "react/prop-types": "off",
     "react-hooks/set-state-in-effect": "off",
     "@typescript-eslint/no-explicit-any": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/types/openapi.d.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

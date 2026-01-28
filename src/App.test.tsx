@@ -2,13 +2,13 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import App from "@/App";
 
-vi.mock("@/pages/dashboard/DashboardPage", () => ({
+vi.mock("@/pages/Dashboard", () => ({
   default: () => <div>Dashboard Page</div>,
 }));
-vi.mock("@/pages/patients/PatientsPage", () => ({
+vi.mock("@/pages/Patients", () => ({
   default: () => <div>Patients Page</div>,
 }));
-vi.mock("@/pages/patients/patient/PatientDetailPage", () => ({
+vi.mock("@/pages/Patients/PatientDetail", () => ({
   default: () => <div>Patient Detail Page</div>,
 }));
 

@@ -8,8 +8,8 @@ import {
   GlassTableRow,
   SectionTitle,
 } from "@/styles/glass";
-import { ClickableRow } from "@/pages/patients/styles";
-import { PATIENTS_TEXT } from "@/pages/patients/constants";
+import { ClickableRow } from "@/pages/Patients/styles";
+import { PATIENTS_TEXT } from "@/pages/Patients/constants";
 
 type PatientsTableProps = {
   patients: Patient[];

@@ -9,6 +9,4 @@ const ClickableRow = styled(GlassTableRow)`
   }
 `;
 
-export {
-  ClickableRow,
-};
+export { ClickableRow };

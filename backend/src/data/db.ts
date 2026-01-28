@@ -383,10 +383,10 @@ export const getDashboardData = async (
   const noShowCounts = buildNoShowCountsFromAppointments(appointments);
   const patientBases = patients.map(toApiPatientBase);
   const patientsWithRisk = applyRiskToPatients(patientBases, noShowCounts);
-  const filteredAppointments = options.fromDate
+  const { fromDate } = options;
+  const filteredAppointments = fromDate
     ? appointments.filter(
-        (appointment) =>
-          appointment.date.getTime() >= options.fromDate.getTime()
+        (appointment) => appointment.date.getTime() >= fromDate.getTime()
       )
     : appointments;
 
@@ -395,6 +395,6 @@ export const getDashboardData = async (
     patients: patientsWithRisk,
     appointments: filteredAppointments.map(toApiAppointment),
     noShowCountsByPatient: noShowCounts,
-    appointmentsTotal: appointments.length,
+    appointmentsTotal: filteredAppointments.length,
   };
 };

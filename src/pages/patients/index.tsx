@@ -1,19 +1,23 @@
 import { Badge, SubtleText } from "@/styles/glass";
 import { useNavigate } from "react-router-dom";
 import { Header, Main, Page, Title } from "@/components/Layout/styles";
+import { PageSidebar } from "@/components/PageSidebar";
 import { usePatientsData } from "@/hooks/usePatientsData";
-import { PATIENTS_TEXT } from "@/pages/patients/constants";
-import { PatientsSidebar } from "@/pages/patients/components/PatientsSidebar";
-import { PatientsTable } from "@/pages/patients/components/PatientsTable";
+import { PATIENTS_TEXT } from "./constants";
+import { PatientsTable } from "./PatientsTable";
 
-const PatientsPage = () => {
+const Patients = () => {
   const navigate = useNavigate();
   const { error, patients, physicians } = usePatientsData();
   const primaryPhysician = physicians[0];
 
   return (
     <Page>
-      <PatientsSidebar />
+      <PageSidebar
+        badge={PATIENTS_TEXT.detailBadge}
+        title={PATIENTS_TEXT.detailTitle}
+        lines={[PATIENTS_TEXT.detailLine]}
+      />
 
       <Main>
         <Header>
@@ -36,4 +40,4 @@ const PatientsPage = () => {
   );
 };
 
-export default PatientsPage;
+export default Patients;

@@ -16,7 +16,12 @@ describe("api helpers", () => {
 
   it("builds dashboard query parameters", async () => {
     const payload: DashboardPayload = {
-      physician: null,
+      physician: {
+        id: "physician-001",
+        name: "Dr. Avery Chen",
+        specialty: "Cardiothoracic Surgery",
+        location: "Northlake Medical Center",
+      },
       patients: [],
       appointments: [],
       noShowCountsByPatient: {},

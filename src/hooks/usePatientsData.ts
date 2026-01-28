@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPatients, fetchPhysicians } from "@/lib/api";
-import { PATIENTS_TEXT } from "@/pages/patients/constants";
+import { PATIENTS_TEXT } from "@/pages/Patients/constants";
 import type { Patient, Physician } from "@/types/api";
 
 const usePatientsData = () => {

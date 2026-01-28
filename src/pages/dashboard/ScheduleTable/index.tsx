@@ -10,8 +10,8 @@ import {
   GlassTableRow,
   SectionTitle,
 } from "@/styles/glass";
-import { ClickableRow, RiskCell, RiskDot } from "@/pages/dashboard/styles";
-import { DASHBOARD_TEXT } from "@/pages/dashboard/constants";
+import { ClickableRow, RiskCell, RiskDot } from "@/pages/Dashboard/styles";
+import { DASHBOARD_TEXT } from "@/pages/Dashboard/constants";
 
 type ScheduleEntry = {
   id: string;

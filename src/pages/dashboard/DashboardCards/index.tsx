@@ -1,6 +1,6 @@
 import { GlassCard, SubtleText } from "@/styles/glass";
-import { CardRow, CardTitle, CardValue } from "@/pages/dashboard/styles";
-import { DASHBOARD_TEXT } from "@/pages/dashboard/constants";
+import { CardRow, CardTitle, CardValue } from "@/pages/Dashboard/styles";
+import { DASHBOARD_TEXT } from "@/pages/Dashboard/constants";
 
 type DashboardCardsProps = {
   appointmentsTotal: number;

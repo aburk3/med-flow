@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchAppointments, fetchPatients, fetchPhysicians } from "@/lib/api";
 import type { Appointment, Patient, Physician } from "@/types/api";
-import { PatientDetailStatus } from "@/pages/patients/patient/type";
+import { PatientDetailStatus } from "@/pages/Patients/PatientDetail/type";
 
 const usePatientDetail = (id: string | undefined) => {
   const [patient, setPatient] = useState<Patient | null>(null);

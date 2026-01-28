@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "@/styles/global";
 import { theme } from "@/styles/theme";
-import DashboardPage from "@/pages/dashboard/DashboardPage";
-import PatientsPage from "@/pages/patients/PatientsPage";
-import PatientDetailPage from "@/pages/patients/patient/PatientDetailPage";
-import AppointmentDetailPage from "@/pages/appointments/appointment/AppointmentDetailPage";
+import Dashboard from "@/pages/Dashboard";
+import Patients from "@/pages/Patients";
+import PatientDetail from "@/pages/Patients/PatientDetail";
+import AppointmentDetail from "@/pages/Appointments/AppointmentDetail";
 
 const App = () => {
   return (
@@ -13,10 +13,10 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/patients" element={<PatientsPage />} />
-          <Route path="/patients/:id" element={<PatientDetailPage />} />
-          <Route path="/appointments/:id" element={<AppointmentDetailPage />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/patients" element={<Patients />} />
+          <Route path="/patients/:id" element={<PatientDetail />} />
+          <Route path="/appointments/:id" element={<AppointmentDetail />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

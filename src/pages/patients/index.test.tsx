@@ -1,6 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import { vi } from "vitest";
-import PatientsPage from "@/pages/patients/PatientsPage";
+import Patients from "@/pages/Patients";
 import { renderWithProviders } from "@/test/test-utils";
 import { fetchPatients, fetchPhysicians } from "@/lib/api";
 
@@ -46,7 +46,7 @@ describe("Patients page", () => {
       },
     ]);
 
-    renderWithProviders(<PatientsPage />, { route: "/patients", path: "/patients" });
+    renderWithProviders(<Patients />, { route: "/patients", path: "/patients" });
 
     expect(
       await screen.findByRole("heading", { name: "Patients" })

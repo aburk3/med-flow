@@ -13,5 +13,6 @@ declare module "styled-components" {
       accentSecondary: string;
     };
     shadow: string;
+    shadowStrong: string;
   }
 }

@@ -10,7 +10,7 @@ import {
   GlassTableRow,
   SectionTitle,
 } from "@/styles/glass";
-import { PATIENT_DETAIL_TEXT } from "@/pages/patients/patient/constants";
+import { PATIENT_DETAIL_TEXT } from "@/pages/Patients/PatientDetail/constants";
 
 const ClickableRow = styled(GlassTableRow)`
   cursor: pointer;

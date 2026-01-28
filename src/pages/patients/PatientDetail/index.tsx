@@ -2,14 +2,14 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { SubtleText } from "@/styles/glass";
 import { Header, Main, Page, Title } from "@/components/Layout/styles";
+import { PageSidebar } from "@/components/PageSidebar";
 import { DEFAULT_PATIENT_RISK, RISK_LABELS } from "@/constants/patientRisk";
 import { sortAppointmentsByDateDesc } from "@/helpers/appointments";
 import { usePatientDetail } from "@/hooks/usePatientDetail";
-import { PatientDetailStatus } from "@/pages/patients/patient/type";
-import { PATIENT_DETAIL_TEXT } from "@/pages/patients/patient/constants";
-import { PatientSidebar } from "@/pages/patients/patient/components/PatientSidebar";
-import { PatientRiskSummary } from "@/pages/patients/patient/components/PatientRiskSummary";
-import { PatientAppointmentsTable } from "@/pages/patients/patient/components/PatientAppointmentsTable";
+import { PatientDetailStatus } from "@/pages/Patients/PatientDetail/type";
+import { PATIENT_DETAIL_TEXT } from "@/pages/Patients/PatientDetail/constants";
+import { PatientRiskSummary } from "@/pages/Patients/PatientDetail/PatientRiskSummary";
+import { PatientAppointmentsTable } from "@/pages/Patients/PatientDetail/PatientAppointmentsTable";
 
 const formatIntakeStatus = (status: string) =>
   status
@@ -29,7 +29,7 @@ const formatDate = (value: string) => {
   });
 };
 
-const PatientDetailPage = () => {
+const PatientDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { appointments, effectiveStatus, patient, physician } = usePatientDetail(id);
 
@@ -100,7 +100,8 @@ const PatientDetailPage = () => {
 
   return (
     <Page>
-      <PatientSidebar
+      <PageSidebar
+        badge={PATIENT_DETAIL_TEXT.detailBadge}
         title={patient?.name ?? PATIENT_DETAIL_TEXT.detailTitleFallback}
         lines={detailLines}
       />
@@ -125,4 +126,4 @@ const PatientDetailPage = () => {
   );
 };
 
-export default PatientDetailPage;
+export default PatientDetail;

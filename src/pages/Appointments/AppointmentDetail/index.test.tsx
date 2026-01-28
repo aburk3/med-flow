@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
-import AppointmentDetailPage from "@/pages/appointments/appointment/AppointmentDetailPage";
+import AppointmentDetail from "@/pages/Appointments/AppointmentDetail";
 import { renderWithProviders } from "@/test/test-utils";
 import {
   createAppointmentFlowStep,
@@ -91,7 +91,7 @@ describe("Appointment detail page", () => {
       ],
     });
 
-    renderWithProviders(<AppointmentDetailPage />, {
+    renderWithProviders(<AppointmentDetail />, {
       route: "/appointments/appt-001",
       path: "/appointments/:id",
     });
@@ -244,7 +244,7 @@ describe("Appointment detail page", () => {
 
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
 
-    renderWithProviders(<AppointmentDetailPage />, {
+    renderWithProviders(<AppointmentDetail />, {
       route: "/appointments/appt-001",
       path: "/appointments/:id",
     });

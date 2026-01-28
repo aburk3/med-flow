@@ -10,6 +10,7 @@ const theme = {
     accentSecondary: "#a78bfa",
   },
   shadow: "0 18px 50px rgba(10, 18, 38, 0.45)",
+  shadowStrong: "0 22px 60px rgba(10, 18, 38, 0.55)",
 };
 
 export { theme };

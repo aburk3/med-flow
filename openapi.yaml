@@ -1,0 +1,520 @@
+openapi: 3.0.3
+info:
+  title: EHR Mock API
+  version: 0.1.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      responses:
+        "200":
+          description: API health status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /api/dashboard:
+    get:
+      summary: Dashboard payload
+      operationId: getDashboard
+      parameters:
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardPayload"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/physicians:
+    get:
+      summary: Physicians
+      operationId: getPhysicians
+      responses:
+        "200":
+          description: Physicians list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Physician"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/patients:
+    get:
+      summary: Patients
+      operationId: getPatients
+      responses:
+        "200":
+          description: Patients list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Patient"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/appointments:
+    get:
+      summary: Appointments
+      operationId: getAppointments
+      parameters:
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Appointments list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Appointment"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/appointments/{id}:
+    get:
+      summary: Appointment detail
+      operationId: getAppointmentDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Appointment detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentDetail"
+        "404":
+          description: Appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/appointments/{id}/flow/steps:
+    post:
+      summary: Create appointment flow step
+      operationId: createAppointmentFlowStep
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentFlowStepCreateRequest"
+      responses:
+        "200":
+          description: Updated appointment flow
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentFlow"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Flow not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/appointments/{id}/flow/steps/reorder:
+    patch:
+      summary: Reorder appointment flow steps
+      operationId: reorderAppointmentFlowSteps
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentFlowReorderRequest"
+      responses:
+        "200":
+          description: Updated appointment flow
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentFlow"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Flow step not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/appointments/{id}/flow/steps/{stepId}:
+    patch:
+      summary: Update appointment flow step
+      operationId: updateAppointmentFlowStep
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: stepId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentFlowStepUpdateRequest"
+      responses:
+        "200":
+          description: Updated appointment flow
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentFlow"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Flow step not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      summary: Delete appointment flow step
+      operationId: deleteAppointmentFlowStep
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: stepId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Updated appointment flow
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentFlow"
+        "404":
+          description: Flow step not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: ok
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+    PatientFlowStage:
+      type: string
+      enum:
+        - Initial Contact
+        - First Meeting
+        - Scheduled Surgery
+        - Pre-Op Clearance
+        - Post-Op Follow Up
+    PatientRisk:
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+    PatientIntakeStatus:
+      type: string
+      enum:
+        - sent
+        - complete
+        - incomplete
+    AppointmentStatus:
+      type: string
+      enum:
+        - completed
+        - canceled
+        - no-show
+        - rescheduled
+        - scheduled
+    AppointmentFlowStepStatus:
+      type: string
+      enum:
+        - not_started
+        - in_progress
+        - incomplete
+        - complete
+    Physician:
+      type: object
+      required:
+        - id
+        - name
+        - specialty
+        - location
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        specialty:
+          type: string
+        location:
+          type: string
+    Patient:
+      type: object
+      required:
+        - id
+        - name
+        - stage
+        - dateOfBirth
+        - phoneNumber
+        - emergencyContact
+        - intakeStatus
+        - primaryPhysicianId
+        - risk
+        - riskReason
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        stage:
+          $ref: "#/components/schemas/PatientFlowStage"
+        dateOfBirth:
+          type: string
+        phoneNumber:
+          type: string
+        emergencyContact:
+          type: string
+        intakeStatus:
+          $ref: "#/components/schemas/PatientIntakeStatus"
+        primaryPhysicianId:
+          type: string
+        risk:
+          $ref: "#/components/schemas/PatientRisk"
+        riskReason:
+          type: string
+    Appointment:
+      type: object
+      required:
+        - id
+        - patientId
+        - physicianId
+        - date
+        - type
+        - location
+        - status
+      properties:
+        id:
+          type: string
+        patientId:
+          type: string
+        physicianId:
+          type: string
+        date:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        status:
+          $ref: "#/components/schemas/AppointmentStatus"
+    AppointmentFlowStep:
+      type: object
+      required:
+        - id
+        - title
+        - order
+        - status
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        order:
+          type: integer
+        status:
+          $ref: "#/components/schemas/AppointmentFlowStepStatus"
+    AppointmentFlow:
+      type: object
+      required:
+        - id
+        - appointmentId
+        - steps
+      properties:
+        id:
+          type: string
+        appointmentId:
+          type: string
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/AppointmentFlowStep"
+    AppointmentDetail:
+      type: object
+      required:
+        - appointment
+        - patient
+        - physician
+        - flow
+      properties:
+        appointment:
+          $ref: "#/components/schemas/Appointment"
+        patient:
+          $ref: "#/components/schemas/Patient"
+        physician:
+          $ref: "#/components/schemas/Physician"
+        flow:
+          $ref: "#/components/schemas/AppointmentFlow"
+    DashboardPayload:
+      type: object
+      required:
+        - physician
+        - patients
+        - appointments
+        - noShowCountsByPatient
+        - appointmentsTotal
+      properties:
+        physician:
+          $ref: "#/components/schemas/Physician"
+        patients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Patient"
+        appointments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Appointment"
+        noShowCountsByPatient:
+          type: object
+          additionalProperties:
+            type: integer
+        appointmentsTotal:
+          type: integer
+    AppointmentFlowStepCreateRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        status:
+          $ref: "#/components/schemas/AppointmentFlowStepStatus"
+    AppointmentFlowStepUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          $ref: "#/components/schemas/AppointmentFlowStepStatus"
+    AppointmentFlowReorderRequest:
+      type: object
+      required:
+        - orderedStepIds
+      properties:
+        orderedStepIds:
+          type: array
+          items:
+            type: string

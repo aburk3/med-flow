@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchDashboard } from "@/lib/api";
 import type { DashboardPayload } from "@/types/api";
-import { DASHBOARD_TEXT } from "@/pages/dashboard/constants";
+import { DASHBOARD_TEXT } from "@/pages/Dashboard/constants";
 
 const useDashboardData = () => {
   const [dashboard, setDashboard] = useState<DashboardPayload | null>(null);

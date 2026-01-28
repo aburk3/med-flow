@@ -4,13 +4,13 @@ import { Badge, SubtleText } from "@/styles/glass";
 import { DEFAULT_PATIENT_RISK } from "@/constants/patientRisk";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { sortAppointmentsByDateDesc } from "@/helpers/appointments";
+import { PageSidebar } from "@/components/PageSidebar";
 import { Header, Main, Page, Title } from "@/components/Layout/styles";
 import { DASHBOARD_TEXT, DEFAULT_PATIENT_STAGE } from "./constants";
-import { DashboardCards } from "./components/DashboardCards";
-import { DashboardSidebar } from "./components/DashboardSidebar";
-import { ScheduleEntry, ScheduleTable } from "./components/ScheduleTable";
+import { DashboardCards } from "@/pages/Dashboard/DashboardCards";
+import { ScheduleEntry, ScheduleTable } from "@/pages/Dashboard/ScheduleTable";
 
-const DashboardPage = () => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const { dashboard, error } = useDashboardData();
 
@@ -44,10 +44,19 @@ const DashboardPage = () => {
   const appointments = dashboard?.appointments ?? [];
   const appointmentsTotal =
     dashboard?.appointmentsTotal ?? appointments.length;
+  const physicianTitle =
+    physician?.name ?? DASHBOARD_TEXT.detailLoadingTitle;
+  const physicianLines = physician
+    ? [physician.specialty, physician.location]
+    : [DASHBOARD_TEXT.detailLoadingLine];
 
   return (
     <Page>
-      <DashboardSidebar physician={physician} />
+      <PageSidebar
+        badge={DASHBOARD_TEXT.detailBadge}
+        title={physicianTitle}
+        lines={physicianLines}
+      />
 
       <Main>
         <Header>
@@ -72,4 +81,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

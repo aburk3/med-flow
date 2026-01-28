@@ -1,0 +1,22 @@
+---
+description: Use ComponentName/index.tsx for components/pages
+alwaysApply: true
+---
+
+# Component and Page Entry Files
+
+When adding or refactoring components/pages, ensure the folder name matches the component/page name and the entry file is `index.tsx`.
+
+Inside `src/pages`, omit the `Page` suffix from folder names and component names (the route implies it).
+
+```typescript
+// Example structure:
+// DetailCard/
+//   index.tsx
+//   styles.ts
+//
+// Pages:
+// src/pages/Dashboard/
+//   index.tsx (const Dashboard)
+//   DashboardCards/index.tsx
+```
