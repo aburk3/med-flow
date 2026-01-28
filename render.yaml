@@ -1,0 +1,33 @@
+databases:
+  - name: ehr-mock-db
+    databaseName: ehr_mock
+    user: ehr_mock
+    plan: free
+
+services:
+  - type: web
+    name: ehr-mock-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install && npm run prisma:generate && npm run build && npx prisma migrate deploy && npm run prisma:seed
+    startCommand: npm run start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ehr-mock-db
+          property: connectionString
+      - key: CORS_ORIGIN
+        value: https://REPLACE_ME.onrender.com
+  - type: static
+    name: ehr-mock-frontend
+    rootDir: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://REPLACE_ME.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

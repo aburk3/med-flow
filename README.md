@@ -53,6 +53,33 @@ npm --prefix backend run prisma:migrate
 npm --prefix backend run prisma:seed
 ```
 
+## Deploy on Render (free)
+
+This repo includes a `render.yaml` blueprint that provisions:
+
+- 1 free Postgres database
+- 1 Node/Express web service (backend)
+- 1 static site (frontend)
+
+Steps:
+
+1. Push the repo to GitHub (or GitLab).
+2. In Render, choose **New > Blueprint** and select your repo.
+3. When the blueprint creates services, update the env vars:
+   - Backend `CORS_ORIGIN`: set to the frontend URL (for example, `https://ehr-mock-frontend.onrender.com`).
+   - Frontend `VITE_API_BASE_URL`: set to the backend URL (for example, `https://ehr-mock-backend.onrender.com`).
+4. Trigger a deploy for both services.
+
+Notes:
+
+- Free Render web services can sleep after inactivity. The first request may take a few seconds.
+- If you want a different DB size or name, edit `render.yaml` before creating the blueprint.
+
+Verify:
+
+- Backend health: `GET https://<backend>.onrender.com/health`
+- Frontend loads dashboard and patients data without CORS errors.
+
 ## Tests (integration)
 
 ```bash
