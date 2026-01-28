@@ -350,13 +350,22 @@ components:
       type: object
       required:
         - id
-        - name
+        - prefix
+        - firstName
+        - lastName
         - specialty
         - location
       properties:
         id:
           type: string
-        name:
+        prefix:
+          type: string
+          enum:
+            - Dr
+            - NursePractitioner
+        firstName:
+          type: string
+        lastName:
           type: string
         specialty:
           type: string
@@ -366,7 +375,8 @@ components:
       type: object
       required:
         - id
-        - name
+        - firstName
+        - lastName
         - stage
         - dateOfBirth
         - phoneNumber
@@ -378,7 +388,9 @@ components:
       properties:
         id:
           type: string
-        name:
+        firstName:
+          type: string
+        lastName:
           type: string
         stage:
           $ref: "#/components/schemas/PatientFlowStage"

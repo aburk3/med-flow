@@ -28,7 +28,9 @@ import { getNextAppointmentFlowStepId } from "./idFactory.js";
 
 const toApiPhysician = (physician: PrismaPhysician): Physician => ({
   id: physician.id,
-  name: physician.name,
+  prefix: physician.prefix,
+  firstName: physician.firstName,
+  lastName: physician.lastName,
   specialty: physician.specialty,
   location: physician.location,
 });
@@ -37,7 +39,8 @@ const toApiPatientBase = (
   patient: PrismaPatient
 ): Omit<Patient, "risk" | "riskReason"> => ({
   id: patient.id,
-  name: patient.name,
+  firstName: patient.firstName,
+  lastName: patient.lastName,
   stage: toApiPatientFlowStage(patient.stage),
   dateOfBirth: patient.dateOfBirth.toISOString(),
   phoneNumber: patient.phoneNumber,

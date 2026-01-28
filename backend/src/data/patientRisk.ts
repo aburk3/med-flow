@@ -1,16 +1,11 @@
-import type { AppointmentStatus, Patient, PatientFlowStage, PatientRisk } from "../types.js";
+import type { AppointmentStatus, Patient, PatientRisk } from "../types.js";
 
 type AppointmentLike = {
   patientId: string;
   status: AppointmentStatus;
 };
 
-type PatientBase = {
-  id: string;
-  name: string;
-  stage: PatientFlowStage;
-  primaryPhysicianId: string;
-};
+type PatientBase = Omit<Patient, "risk" | "riskReason">;
 
 export const buildNoShowCounts = (
   appointments: AppointmentLike[]

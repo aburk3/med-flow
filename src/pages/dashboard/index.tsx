@@ -4,6 +4,7 @@ import { Badge, SubtleText } from "@/styles/glass";
 import { DEFAULT_PATIENT_RISK } from "@/constants/patientRisk";
 import { useDashboardData } from "@/hooks/useDashboardData";
 import { sortAppointmentsByDateDesc } from "@/helpers/appointments";
+import { formatPatientName, formatPhysicianName } from "@/helpers/names";
 import { PageSidebar } from "@/components/PageSidebar";
 import { Header, Main, Page, Title } from "@/components/Layout/styles";
 import { DASHBOARD_TEXT, DEFAULT_PATIENT_STAGE } from "./constants";
@@ -30,7 +31,9 @@ const Dashboard = () => {
           noShowCountsByPatient[appointment.patientId] ?? 0;
         return {
           ...appointment,
-          patientName: patient?.name ?? DASHBOARD_TEXT.unknownPatient,
+          patientName: patient
+            ? formatPatientName(patient)
+            : DASHBOARD_TEXT.unknownPatient,
           stage: patient?.stage ?? DEFAULT_PATIENT_STAGE,
           risk: patient?.risk ?? DEFAULT_PATIENT_RISK,
           missedAppointments,
@@ -45,7 +48,7 @@ const Dashboard = () => {
   const appointmentsTotal =
     dashboard?.appointmentsTotal ?? appointments.length;
   const physicianTitle =
-    physician?.name ?? DASHBOARD_TEXT.detailLoadingTitle;
+    physician ? formatPhysicianName(physician) : DASHBOARD_TEXT.detailLoadingTitle;
   const physicianLines = physician
     ? [physician.specialty, physician.location]
     : [DASHBOARD_TEXT.detailLoadingLine];

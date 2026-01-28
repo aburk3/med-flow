@@ -11,30 +11,33 @@ vi.mock("@/lib/api", () => ({
 
 const mockDashboardPayload: DashboardPayload = {
   physician: {
-    id: "physician-001",
-    name: "Dr. Avery Chen",
+    id: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
+    prefix: "Dr",
+    firstName: "Avery",
+    lastName: "Chen",
     specialty: "Cardiothoracic Surgery",
     location: "Northlake Medical Center",
   },
   patients: [
     {
-      id: "patient-002",
-      name: "Liam Patel",
+      id: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
+      firstName: "Liam",
+      lastName: "Patel",
       stage: "First Meeting",
       dateOfBirth: "1987-08-22",
       phoneNumber: "(415) 555-0128",
       emergencyContact: "Asha Patel · (415) 555-0194",
       intakeStatus: "complete",
-      primaryPhysicianId: "physician-001",
+      primaryPhysicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
       risk: "medium",
       riskReason: "Missed 1 appointment.",
     },
   ],
   appointments: [
     {
-      id: "appt-001",
-      patientId: "patient-002",
-      physicianId: "physician-001",
+      id: "11111111-aaaa-4bbb-8ccc-000000000001",
+      patientId: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
+      physicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
       date: "2026-01-28T14:30:00.000Z",
       type: "Consultation",
       location: "Suite 420",
@@ -42,7 +45,7 @@ const mockDashboardPayload: DashboardPayload = {
     },
   ],
   noShowCountsByPatient: {
-    "patient-002": 1,
+    "b2c3d4e5-2222-4bbb-8ccc-222222222222": 1,
   },
   appointmentsTotal: 3,
 };

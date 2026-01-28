@@ -5,6 +5,7 @@ import { Header, Main, Page, Title } from "@/components/Layout/styles";
 import { PageSidebar } from "@/components/PageSidebar";
 import { DEFAULT_PATIENT_RISK, RISK_LABELS } from "@/constants/patientRisk";
 import { sortAppointmentsByDateDesc } from "@/helpers/appointments";
+import { formatPatientName, formatPhysicianName } from "@/helpers/names";
 import { usePatientDetail } from "@/hooks/usePatientDetail";
 import { PatientDetailStatus } from "@/pages/Patients/PatientDetail/type";
 import { PATIENT_DETAIL_TEXT } from "@/pages/Patients/PatientDetail/constants";
@@ -50,7 +51,9 @@ const PatientDetail = () => {
         patient.intakeStatus
       )}`,
       `${PATIENT_DETAIL_TEXT.stageLabel} ${patient.stage}`,
-      physician?.name ?? PATIENT_DETAIL_TEXT.assignedPhysicianFallback,
+      physician
+        ? formatPhysicianName(physician)
+        : PATIENT_DETAIL_TEXT.assignedPhysicianFallback,
     ];
   }, [effectiveStatus, patient, physician]);
 
@@ -102,7 +105,9 @@ const PatientDetail = () => {
     <Page>
       <PageSidebar
         badge={PATIENT_DETAIL_TEXT.detailBadge}
-        title={patient?.name ?? PATIENT_DETAIL_TEXT.detailTitleFallback}
+        title={
+          patient ? formatPatientName(patient) : PATIENT_DETAIL_TEXT.detailTitleFallback
+        }
         lines={detailLines}
       />
 

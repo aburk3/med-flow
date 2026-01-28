@@ -3,8 +3,8 @@ import { physician } from "./physician.js";
 
 export const appointments: Appointment[] = [
   {
-    id: "appt-001",
-    patientId: "patient-002",
+    id: "11111111-aaaa-4bbb-8ccc-000000000001",
+    patientId: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
     physicianId: physician.id,
     date: "2026-01-28T14:30:00.000Z",
     type: "Consultation",
@@ -12,8 +12,8 @@ export const appointments: Appointment[] = [
     status: "scheduled",
   },
   {
-    id: "appt-002",
-    patientId: "patient-003",
+    id: "22222222-bbbb-4ccc-8ddd-000000000002",
+    patientId: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
     physicianId: physician.id,
     date: "2026-02-02T09:00:00.000Z",
     type: "Surgery",
@@ -21,8 +21,8 @@ export const appointments: Appointment[] = [
     status: "scheduled",
   },
   {
-    id: "appt-003",
-    patientId: "patient-004",
+    id: "33333333-cccc-4ddd-8eee-000000000003",
+    patientId: "d4e5f6a7-4444-4ddd-8eee-444444444444",
     physicianId: physician.id,
     date: "2026-02-05T16:15:00.000Z",
     type: "Pre-Op Review",
@@ -30,8 +30,8 @@ export const appointments: Appointment[] = [
     status: "scheduled",
   },
   {
-    id: "appt-004",
-    patientId: "patient-002",
+    id: "44444444-dddd-4eee-8fff-000000000004",
+    patientId: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
     physicianId: physician.id,
     date: "2026-01-10T15:30:00.000Z",
     type: "Consultation",
@@ -39,8 +39,8 @@ export const appointments: Appointment[] = [
     status: "no-show",
   },
   {
-    id: "appt-005",
-    patientId: "patient-003",
+    id: "55555555-eeee-4fff-8aaa-000000000005",
+    patientId: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
     physicianId: physician.id,
     date: "2025-12-14T10:00:00.000Z",
     type: "Follow Up",
@@ -48,8 +48,8 @@ export const appointments: Appointment[] = [
     status: "no-show",
   },
   {
-    id: "appt-006",
-    patientId: "patient-003",
+    id: "66666666-ffff-4aaa-8bbb-000000000006",
+    patientId: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
     physicianId: physician.id,
     date: "2025-11-03T10:00:00.000Z",
     type: "Consultation",
@@ -57,8 +57,8 @@ export const appointments: Appointment[] = [
     status: "no-show",
   },
   {
-    id: "appt-007",
-    patientId: "patient-003",
+    id: "77777777-aaaa-4bbb-8ccc-000000000007",
+    patientId: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
     physicianId: physician.id,
     date: "2025-10-11T10:00:00.000Z",
     type: "Consultation",
@@ -66,8 +66,8 @@ export const appointments: Appointment[] = [
     status: "no-show",
   },
   {
-    id: "appt-009",
-    patientId: "patient-003",
+    id: "99999999-cccc-4ddd-8eee-000000000009",
+    patientId: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
     physicianId: physician.id,
     date: "2025-09-18T13:00:00.000Z",
     type: "Consultation",
@@ -75,8 +75,8 @@ export const appointments: Appointment[] = [
     status: "no-show",
   },
   {
-    id: "appt-008",
-    patientId: "patient-005",
+    id: "88888888-bbbb-4ccc-8ddd-000000000008",
+    patientId: "e5f6a7b8-5555-4eee-8fff-555555555555",
     physicianId: physician.id,
     date: "2025-12-02T13:00:00.000Z",
     type: "Post-Op Review",

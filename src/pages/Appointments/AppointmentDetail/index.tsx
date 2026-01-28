@@ -12,6 +12,7 @@ import {
   AppointmentDetailStatus,
   useAppointmentDetail,
 } from "@/hooks/useAppointmentDetail";
+import { formatPatientName, formatPhysicianName } from "@/helpers/names";
 import { APPOINTMENT_DETAIL_TEXT } from "./constants";
 import {
   DetailBlock,
@@ -123,7 +124,7 @@ const AppointmentDetail = () => {
     }
 
     return [
-      detail.patient.name,
+      formatPatientName(detail.patient),
       detail.patient.phoneNumber,
       detail.patient.emergencyContact,
     ];
@@ -519,11 +520,11 @@ const AppointmentDetail = () => {
             <DetailsGrid>
               <DetailBlock>
                 <DetailLabel>{APPOINTMENT_DETAIL_TEXT.patientLabel}</DetailLabel>
-                <DetailValue>{detail.patient.name}</DetailValue>
+                <DetailValue>{formatPatientName(detail.patient)}</DetailValue>
               </DetailBlock>
               <DetailBlock>
                 <DetailLabel>{APPOINTMENT_DETAIL_TEXT.physicianLabel}</DetailLabel>
-                <DetailValue>{detail.physician.name}</DetailValue>
+                <DetailValue>{formatPhysicianName(detail.physician)}</DetailValue>
               </DetailBlock>
               <DetailBlock>
                 <DetailLabel>{APPOINTMENT_DETAIL_TEXT.dateLabel}</DetailLabel>

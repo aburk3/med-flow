@@ -36,9 +36,16 @@ enum AppointmentFlowStepStatus {
   complete
 }
 
+enum PhysicianPrefix {
+  Dr
+  NursePractitioner
+}
+
 model Physician {
-  id           String        @id
-  name         String
+  id           String        @id @default(uuid()) @db.Uuid
+  prefix       PhysicianPrefix @default(Dr)
+  firstName    String        @map("first_name")
+  lastName     String        @map("last_name")
   specialty    String
   location     String
   patients     Patient[]
@@ -50,14 +57,15 @@ model Physician {
 }
 
 model Patient {
-  id                 String            @id
-  name               String
+  id                 String            @id @default(uuid()) @db.Uuid
+  firstName          String            @map("first_name")
+  lastName           String            @map("last_name")
   stage              PatientFlowStage
   dateOfBirth        DateTime          @map("date_of_birth") @db.Date
   phoneNumber        String            @map("phone_number")
   emergencyContact   String            @map("emergency_contact")
   intakeStatus       PatientIntakeStatus @default(sent) @map("intake_status")
-  primaryPhysicianId String            @map("primary_physician_id")
+  primaryPhysicianId String            @map("primary_physician_id") @db.Uuid
   primaryPhysician   Physician         @relation(fields: [primaryPhysicianId], references: [id])
   appointments       Appointment[]
   createdAt          DateTime          @default(now())
@@ -68,9 +76,9 @@ model Patient {
 }
 
 model Appointment {
-  id          String            @id
-  patientId   String            @map("patient_id")
-  physicianId String            @map("physician_id")
+  id          String            @id @default(uuid()) @db.Uuid
+  patientId   String            @map("patient_id") @db.Uuid
+  physicianId String            @map("physician_id") @db.Uuid
   date        DateTime          @db.Timestamptz(3)
   type        String
   location    String
@@ -89,8 +97,8 @@ model Appointment {
 }
 
 model AppointmentFlow {
-  id            String               @id
-  appointmentId String               @unique @map("appointment_id")
+  id            String               @id @default(uuid()) @db.Uuid
+  appointmentId String               @unique @map("appointment_id") @db.Uuid
   appointment   Appointment          @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
   steps         AppointmentFlowStep[]
   createdAt     DateTime             @default(now())
@@ -100,8 +108,8 @@ model AppointmentFlow {
 }
 
 model AppointmentFlowStep {
-  id        String                  @id
-  flowId    String                  @map("flow_id")
+  id        String                  @id @default(uuid()) @db.Uuid
+  flowId    String                  @map("flow_id") @db.Uuid
   flow      AppointmentFlow         @relation(fields: [flowId], references: [id], onDelete: Cascade)
   title     String
   order     Int

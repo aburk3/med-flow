@@ -26,44 +26,47 @@ describe("Appointment detail page", () => {
   it("renders flow steps and updates status", async () => {
     vi.mocked(fetchAppointmentDetail).mockResolvedValueOnce({
       appointment: {
-        id: "appt-001",
-        patientId: "patient-002",
-        physicianId: "physician-001",
+        id: "11111111-aaaa-4bbb-8ccc-000000000001",
+        patientId: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
+        physicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         date: "2026-01-28T14:30:00.000Z",
         type: "Consultation",
         location: "Suite 420",
         status: "scheduled",
       },
       patient: {
-        id: "patient-002",
-        name: "Liam Patel",
+        id: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
+        firstName: "Liam",
+        lastName: "Patel",
         stage: "First Meeting",
         dateOfBirth: "1987-08-22",
         phoneNumber: "(415) 555-0128",
         emergencyContact: "Asha Patel · (415) 555-0194",
         intakeStatus: "complete",
-        primaryPhysicianId: "physician-001",
+        primaryPhysicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         risk: "medium",
         riskReason: "Missed 1 appointment.",
       },
       physician: {
-        id: "physician-001",
-        name: "Dr. Avery Chen",
+        id: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
+        prefix: "Dr",
+        firstName: "Avery",
+        lastName: "Chen",
         specialty: "Cardiothoracic Surgery",
         location: "Northlake Medical Center",
       },
       flow: {
-        id: "flow-001",
-        appointmentId: "appt-001",
+        id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+        appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
         steps: [
           {
-            id: "step-1",
+            id: "11111111-2222-4bbb-8ccc-222222222222",
             title: "Scheduled",
             order: 1,
             status: "in_progress",
           },
           {
-            id: "step-2",
+            id: "22222222-3333-4ccc-8ddd-333333333333",
             title: "Appointment Confirmed",
             order: 2,
             status: "not_started",
@@ -73,17 +76,17 @@ describe("Appointment detail page", () => {
     });
 
     vi.mocked(updateAppointmentFlowStep).mockResolvedValueOnce({
-      id: "flow-001",
-      appointmentId: "appt-001",
+      id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+      appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
       steps: [
         {
-          id: "step-1",
+          id: "11111111-2222-4bbb-8ccc-222222222222",
           title: "Scheduled",
           order: 1,
           status: "complete",
         },
         {
-          id: "step-2",
+          id: "22222222-3333-4ccc-8ddd-333333333333",
           title: "Appointment Confirmed",
           order: 2,
           status: "not_started",
@@ -92,7 +95,7 @@ describe("Appointment detail page", () => {
     });
 
     renderWithProviders(<AppointmentDetail />, {
-      route: "/appointments/appt-001",
+      route: "/appointments/11111111-aaaa-4bbb-8ccc-000000000001",
       path: "/appointments/:id",
     });
 
@@ -107,8 +110,8 @@ describe("Appointment detail page", () => {
 
     await waitFor(() => {
       expect(updateAppointmentFlowStep).toHaveBeenCalledWith(
-        "appt-001",
-        "step-1",
+        "11111111-aaaa-4bbb-8ccc-000000000001",
+        "11111111-2222-4bbb-8ccc-222222222222",
         { status: "complete" }
       );
     });
@@ -120,44 +123,47 @@ describe("Appointment detail page", () => {
   it("supports managing flow steps", async () => {
     vi.mocked(fetchAppointmentDetail).mockResolvedValueOnce({
       appointment: {
-        id: "appt-001",
-        patientId: "patient-002",
-        physicianId: "physician-001",
+        id: "11111111-aaaa-4bbb-8ccc-000000000001",
+        patientId: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
+        physicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         date: "2026-01-28T14:30:00.000Z",
         type: "Consultation",
         location: "Suite 420",
         status: "scheduled",
       },
       patient: {
-        id: "patient-002",
-        name: "Liam Patel",
+        id: "b2c3d4e5-2222-4bbb-8ccc-222222222222",
+        firstName: "Liam",
+        lastName: "Patel",
         stage: "First Meeting",
         dateOfBirth: "1987-08-22",
         phoneNumber: "(415) 555-0128",
         emergencyContact: "Asha Patel · (415) 555-0194",
         intakeStatus: "complete",
-        primaryPhysicianId: "physician-001",
+        primaryPhysicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         risk: "medium",
         riskReason: "Missed 1 appointment.",
       },
       physician: {
-        id: "physician-001",
-        name: "Dr. Avery Chen",
+        id: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
+        prefix: "Dr",
+        firstName: "Avery",
+        lastName: "Chen",
         specialty: "Cardiothoracic Surgery",
         location: "Northlake Medical Center",
       },
       flow: {
-        id: "flow-001",
-        appointmentId: "appt-001",
+        id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+        appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
         steps: [
           {
-            id: "step-1",
+            id: "11111111-2222-4bbb-8ccc-222222222222",
             title: "Scheduled",
             order: 1,
             status: "in_progress",
           },
           {
-            id: "step-2",
+            id: "22222222-3333-4ccc-8ddd-333333333333",
             title: "Appointment Confirmed",
             order: 2,
             status: "not_started",
@@ -167,23 +173,23 @@ describe("Appointment detail page", () => {
     });
 
     vi.mocked(createAppointmentFlowStep).mockResolvedValueOnce({
-      id: "flow-001",
-      appointmentId: "appt-001",
+      id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+      appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
       steps: [
         {
-          id: "step-1",
+          id: "11111111-2222-4bbb-8ccc-222222222222",
           title: "Scheduled",
           order: 1,
           status: "in_progress",
         },
         {
-          id: "step-2",
+          id: "22222222-3333-4ccc-8ddd-333333333333",
           title: "Appointment Confirmed",
           order: 2,
           status: "not_started",
         },
         {
-          id: "step-3",
+          id: "33333333-4444-4ddd-8eee-444444444444",
           title: "Pre-Op Checklist",
           order: 3,
           status: "not_started",
@@ -192,17 +198,17 @@ describe("Appointment detail page", () => {
     });
 
     vi.mocked(updateAppointmentFlowStep).mockResolvedValueOnce({
-      id: "flow-001",
-      appointmentId: "appt-001",
+      id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+      appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
       steps: [
         {
-          id: "step-1",
+          id: "11111111-2222-4bbb-8ccc-222222222222",
           title: "Scheduled",
           order: 1,
           status: "in_progress",
         },
         {
-          id: "step-2",
+          id: "22222222-3333-4ccc-8ddd-333333333333",
           title: "Confirmation Call",
           order: 2,
           status: "not_started",
@@ -211,17 +217,17 @@ describe("Appointment detail page", () => {
     });
 
     vi.mocked(reorderAppointmentFlowStep).mockResolvedValueOnce({
-      id: "flow-001",
-      appointmentId: "appt-001",
+      id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+      appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
       steps: [
         {
-          id: "step-2",
+          id: "22222222-3333-4ccc-8ddd-333333333333",
           title: "Appointment Confirmed",
           order: 1,
           status: "not_started",
         },
         {
-          id: "step-1",
+          id: "11111111-2222-4bbb-8ccc-222222222222",
           title: "Scheduled",
           order: 2,
           status: "in_progress",
@@ -230,11 +236,11 @@ describe("Appointment detail page", () => {
     });
 
     vi.mocked(deleteAppointmentFlowStep).mockResolvedValueOnce({
-      id: "flow-001",
-      appointmentId: "appt-001",
+      id: "f0f0f0f0-1111-4aaa-8bbb-111111111111",
+      appointmentId: "11111111-aaaa-4bbb-8ccc-000000000001",
       steps: [
         {
-          id: "step-2",
+          id: "22222222-3333-4ccc-8ddd-333333333333",
           title: "Appointment Confirmed",
           order: 1,
           status: "not_started",
@@ -245,7 +251,7 @@ describe("Appointment detail page", () => {
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
 
     renderWithProviders(<AppointmentDetail />, {
-      route: "/appointments/appt-001",
+      route: "/appointments/11111111-aaaa-4bbb-8ccc-000000000001",
       path: "/appointments/:id",
     });
 
@@ -267,7 +273,7 @@ describe("Appointment detail page", () => {
       name: "Drag to reorder",
     })[0];
     const confirmCard = document.querySelector(
-      "[data-flow-step-id='step-2']"
+      "[data-flow-step-id='22222222-3333-4ccc-8ddd-333333333333']"
     ) as HTMLElement;
 
     confirmCard.getBoundingClientRect = () => ({
@@ -298,7 +304,7 @@ describe("Appointment detail page", () => {
     expect(reorderAppointmentFlowStep).not.toHaveBeenCalled();
 
     const scheduledCard = document.querySelector(
-      "[data-flow-step-id='step-1']"
+      "[data-flow-step-id='11111111-2222-4bbb-8ccc-222222222222']"
     ) as HTMLElement;
     fireEvent.click(within(scheduledCard).getByRole("button", { name: "Delete" }));
     expect(deleteAppointmentFlowStep).not.toHaveBeenCalled();
@@ -306,24 +312,33 @@ describe("Appointment detail page", () => {
     fireEvent.click(screen.getByRole("button", { name: "Save" }));
 
     await waitFor(() => {
-      expect(createAppointmentFlowStep).toHaveBeenCalledWith("appt-001", {
-        title: "Pre-Op Checklist",
-      });
+      expect(createAppointmentFlowStep).toHaveBeenCalledWith(
+        "11111111-aaaa-4bbb-8ccc-000000000001",
+        {
+          title: "Pre-Op Checklist",
+        }
+      );
     });
     await waitFor(() => {
       expect(updateAppointmentFlowStep).toHaveBeenCalledWith(
-        "appt-001",
-        "step-2",
+        "11111111-aaaa-4bbb-8ccc-000000000001",
+        "22222222-3333-4ccc-8ddd-333333333333",
         { title: "Confirmation Call" }
       );
     });
     await waitFor(() => {
-      expect(deleteAppointmentFlowStep).toHaveBeenCalledWith("appt-001", "step-1");
+      expect(deleteAppointmentFlowStep).toHaveBeenCalledWith(
+        "11111111-aaaa-4bbb-8ccc-000000000001",
+        "11111111-2222-4bbb-8ccc-222222222222"
+      );
     });
     await waitFor(() => {
-      expect(reorderAppointmentFlowStep).toHaveBeenCalledWith("appt-001", [
-        "step-2",
-        "step-3",
+      expect(reorderAppointmentFlowStep).toHaveBeenCalledWith(
+        "11111111-aaaa-4bbb-8ccc-000000000001",
+        [
+          "22222222-3333-4ccc-8ddd-333333333333",
+          "33333333-4444-4ddd-8eee-444444444444",
+        ]
       ]);
     });
 

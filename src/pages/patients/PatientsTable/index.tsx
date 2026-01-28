@@ -1,5 +1,6 @@
 import type { Patient, Physician } from "@/types/api";
 import { handleRowKeyDown } from "@/helpers/keyboard";
+import { formatPatientName, formatPhysicianName } from "@/helpers/names";
 import {
   GlassPanel,
   GlassTable,
@@ -50,11 +51,12 @@ const PatientsTable = ({
                 handleRowKeyDown(event, () => onNavigate(patient.id))
               }
             >
-              <GlassTableCell>{patient.name}</GlassTableCell>
+              <GlassTableCell>{formatPatientName(patient)}</GlassTableCell>
               <GlassTableCell>{patient.stage}</GlassTableCell>
               <GlassTableCell>
-                {primaryPhysician?.name ??
-                  PATIENTS_TEXT.assignedPhysicianFallback}
+                {primaryPhysician
+                  ? formatPhysicianName(primaryPhysician)
+                  : PATIENTS_TEXT.assignedPhysicianFallback}
               </GlassTableCell>
             </ClickableRow>
           ))}

@@ -1,4 +1,6 @@
+import type { Prisma } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
+import { randomUUID } from "crypto";
 import { mockData } from "../src/data/mockData/index.js";
 import {
   toPrismaAppointmentStatus,
@@ -9,36 +11,44 @@ import {
 
 const prisma = new PrismaClient();
 
-const buildPrefixedId = (prefix: string, index: number) =>
-  `${prefix}-${String(index).padStart(3, "0")}`;
-
 const seed = async () => {
+  const physicianUpdate = {
+    prefix: mockData.physician.prefix,
+    firstName: mockData.physician.firstName,
+    lastName: mockData.physician.lastName,
+    specialty: mockData.physician.specialty,
+    location: mockData.physician.location,
+  } as Prisma.PhysicianUncheckedUpdateInput;
+
+  const physicianCreate = {
+    id: mockData.physician.id,
+    prefix: mockData.physician.prefix,
+    firstName: mockData.physician.firstName,
+    lastName: mockData.physician.lastName,
+    specialty: mockData.physician.specialty,
+    location: mockData.physician.location,
+  } as unknown as Prisma.PhysicianUncheckedCreateInput;
+
   await prisma.physician.upsert({
     where: { id: mockData.physician.id },
-    update: {
-      name: mockData.physician.name,
-      specialty: mockData.physician.specialty,
-      location: mockData.physician.location,
-    },
-    create: {
-      id: mockData.physician.id,
-      name: mockData.physician.name,
-      specialty: mockData.physician.specialty,
-      location: mockData.physician.location,
-    },
+    update: physicianUpdate,
+    create: physicianCreate,
   });
 
+  const patientRows = mockData.patients.map((patient) => ({
+    id: patient.id,
+    firstName: patient.firstName,
+    lastName: patient.lastName,
+    stage: toPrismaPatientFlowStage(patient.stage),
+    dateOfBirth: new Date(patient.dateOfBirth),
+    phoneNumber: patient.phoneNumber,
+    emergencyContact: patient.emergencyContact,
+    intakeStatus: toPrismaPatientIntakeStatus(patient.intakeStatus),
+    primaryPhysicianId: patient.primaryPhysicianId,
+  })) as unknown as Prisma.PatientCreateManyInput[];
+
   await prisma.patient.createMany({
-    data: mockData.patients.map((patient) => ({
-      id: patient.id,
-      name: patient.name,
-      stage: toPrismaPatientFlowStage(patient.stage),
-      dateOfBirth: new Date(patient.dateOfBirth),
-      phoneNumber: patient.phoneNumber,
-      emergencyContact: patient.emergencyContact,
-      intakeStatus: toPrismaPatientIntakeStatus(patient.intakeStatus),
-      primaryPhysicianId: patient.primaryPhysicianId,
-    })),
+    data: patientRows,
     skipDuplicates: true,
   });
 
@@ -62,21 +72,21 @@ const seed = async () => {
     { title: "Follow Up", order: 4 },
   ] as const;
 
-  for (const [appointmentIndex, appointment] of mockData.appointments.entries()) {
+  for (const appointment of mockData.appointments) {
     await prisma.appointmentFlow.deleteMany({
       where: { appointmentId: appointment.id },
     });
 
     const flow = await prisma.appointmentFlow.create({
       data: {
-        id: buildPrefixedId("flow", appointmentIndex + 1),
+        id: randomUUID(),
         appointmentId: appointment.id,
       },
     });
 
     await prisma.appointmentFlowStep.createMany({
-      data: flowStepsTemplate.map((step, stepIndex) => ({
-        id: buildPrefixedId("flowstep", appointmentIndex * 10 + stepIndex + 1),
+      data: flowStepsTemplate.map((step) => ({
+        id: randomUUID(),
         flowId: flow.id,
         title: step.title,
         order: step.order,

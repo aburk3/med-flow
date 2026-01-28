@@ -68,7 +68,8 @@ declare namespace Components {
         }
         export interface Patient {
             id: string;
-            name: string;
+            firstName: string;
+            lastName: string;
             stage: PatientFlowStage;
             dateOfBirth: string;
             phoneNumber: string;
@@ -83,7 +84,9 @@ declare namespace Components {
         export type PatientRisk = "low" | "medium" | "high";
         export interface Physician {
             id: string;
-            name: string;
+            prefix: "Dr" | "NursePractitioner";
+            firstName: string;
+            lastName: string;
             specialty: string;
             location: string;
         }

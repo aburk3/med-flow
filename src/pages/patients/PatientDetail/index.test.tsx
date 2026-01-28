@@ -14,31 +14,34 @@ describe("Patient detail page", () => {
   it("renders risk summary and appointment status", async () => {
     vi.mocked(fetchPatients).mockResolvedValueOnce([
       {
-        id: "patient-003",
-        name: "Noah Kim",
+        id: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
+        firstName: "Noah",
+        lastName: "Kim",
         stage: "Scheduled Surgery",
         dateOfBirth: "1979-11-05",
         phoneNumber: "(415) 555-0113",
         emergencyContact: "Hana Kim · (415) 555-0133",
         intakeStatus: "complete",
-        primaryPhysicianId: "physician-001",
+        primaryPhysicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         risk: "high",
         riskReason: "Missed 4 appointments.",
       },
     ]);
     vi.mocked(fetchPhysicians).mockResolvedValueOnce([
       {
-        id: "physician-001",
-        name: "Dr. Avery Chen",
+        id: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
+        prefix: "Dr",
+        firstName: "Avery",
+        lastName: "Chen",
         specialty: "Cardiothoracic Surgery",
         location: "Northlake Medical Center",
       },
     ]);
     vi.mocked(fetchAppointments).mockResolvedValueOnce([
       {
-        id: "appt-002",
-        patientId: "patient-003",
-        physicianId: "physician-001",
+        id: "22222222-bbbb-4ccc-8ddd-000000000002",
+        patientId: "c3d4e5f6-3333-4ccc-8ddd-333333333333",
+        physicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         date: "2026-02-02T09:00:00.000Z",
         type: "Surgery",
         location: "OR 3",
@@ -46,7 +49,7 @@ describe("Patient detail page", () => {
       },
     ]);
     renderWithProviders(<PatientDetail />, {
-      route: "/patients/patient-003",
+      route: "/patients/c3d4e5f6-3333-4ccc-8ddd-333333333333",
       path: "/patients/:id",
     });
 
