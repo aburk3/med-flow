@@ -7,17 +7,34 @@ const CardRow = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
+
+  ${({ theme }) => theme.media.phone} {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
 `;
 
 const CardTitle = styled.h3`
   margin: 0;
   font-size: 18px;
+
+  ${({ theme }) => theme.media.phone} {
+    font-size: 16px;
+  }
 `;
 
 const CardValue = styled.div`
   margin: 8px 0;
   font-size: 32px;
   font-weight: 600;
+
+  ${({ theme }) => theme.media.tablet} {
+    font-size: 28px;
+  }
+
+  ${({ theme }) => theme.media.phone} {
+    font-size: 24px;
+  }
 `;
 
 const ClickableRow = styled(GlassTableRow)`

@@ -40,6 +40,17 @@ const GlassPanel = styled.section`
     position: relative;
     z-index: 1;
   }
+
+  ${({ theme }) => theme.media.tablet} {
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  ${({ theme }) => theme.media.phone} {
+    border-radius: 18px;
+    padding: 16px;
+    overflow-x: auto;
+  }
 `;
 
 const GlassCard = styled.article`
@@ -80,6 +91,15 @@ const GlassCard = styled.article`
     position: relative;
     z-index: 1;
   }
+
+  ${({ theme }) => theme.media.tablet} {
+    padding: 18px;
+  }
+
+  ${({ theme }) => theme.media.phone} {
+    padding: 16px;
+    border-radius: 18px;
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -87,12 +107,20 @@ const SectionTitle = styled.h2`
   letter-spacing: 0.4px;
   margin: 0 0 16px;
   color: ${({ theme }) => theme.colors.textPrimary};
+
+  ${({ theme }) => theme.media.phone} {
+    font-size: 18px;
+  }
 `;
 
 const SubtleText = styled.p`
   margin: 4px 0 0;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 14px;
+
+  ${({ theme }) => theme.media.phone} {
+    font-size: 13px;
+  }
 `;
 
 const Badge = styled.span`
@@ -113,6 +141,10 @@ const GlassTable = styled.table`
   border-collapse: collapse;
   color: ${({ theme }) => theme.colors.textPrimary};
   font-size: 14px;
+
+  ${({ theme }) => theme.media.phone} {
+    font-size: 13px;
+  }
 `;
 
 const GlassTableRow = styled.tr`
@@ -130,11 +162,20 @@ const GlassTableHeader = styled.th`
   text-transform: uppercase;
   padding: 12px 0;
   color: ${({ theme }) => theme.colors.textSecondary};
+
+  ${({ theme }) => theme.media.phone} {
+    padding: 10px 0;
+    font-size: 11px;
+  }
 `;
 
 const GlassTableCell = styled.td`
   padding: 14px 0;
   color: ${({ theme }) => theme.colors.textPrimary};
+
+  ${({ theme }) => theme.media.phone} {
+    padding: 12px 0;
+  }
 `;
 
 export {

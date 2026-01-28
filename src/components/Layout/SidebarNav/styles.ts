@@ -5,6 +5,16 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  ${({ theme }) => theme.media.tablet} {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  ${({ theme }) => theme.media.phone} {
+    flex-direction: column;
+  }
 `;
 
 const NavItem = styled(Link)`
@@ -16,6 +26,15 @@ const NavItem = styled(Link)`
 
   &:hover {
     background: rgba(255, 255, 255, 0.18);
+  }
+
+  ${({ theme }) => theme.media.tablet} {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  ${({ theme }) => theme.media.phone} {
+    width: 100%;
   }
 `;
 

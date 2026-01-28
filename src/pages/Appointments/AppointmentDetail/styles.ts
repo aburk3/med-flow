@@ -17,6 +17,11 @@ const FlowTrack = styled.div`
   overflow-x: auto;
   overflow-y: visible;
   padding: 16px 0 4px;
+
+  ${({ theme }) => theme.media.phone} {
+    gap: 12px;
+    padding: 12px 0 2px;
+  }
 `;
 
 const FlowHeaderRow = styled.div`
@@ -25,12 +30,23 @@ const FlowHeaderRow = styled.div`
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 12px;
+
+  ${({ theme }) => theme.media.phone} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const FlowHeaderActions = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  ${({ theme }) => theme.media.phone} {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 `;
 
 const FlowStepCard = styled.div<FlowStepCardProps>`
@@ -82,6 +98,11 @@ const FlowStepCard = styled.div<FlowStepCardProps>`
     right: -10px;
     transition: opacity 0.15s ease;
   }
+
+  ${({ theme }) => theme.media.phone} {
+    min-width: 170px;
+    padding: 14px;
+  }
 `;
 
 const FlowStepTitleRow = styled.div`
@@ -90,6 +111,11 @@ const FlowStepTitleRow = styled.div`
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 10px;
+
+  ${({ theme }) => theme.media.phone} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const FlowDragHandle = styled.div`
@@ -148,6 +174,10 @@ const FlowTitleText = styled.div`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.textPrimary};
   flex: 1;
+
+  ${({ theme }) => theme.media.phone} {
+    font-size: 13px;
+  }
 `;
 
 const FlowTitleInput = styled.input`
@@ -169,6 +199,10 @@ const FlowTitleInput = styled.input`
     border-color: rgba(125, 211, 252, 0.8);
     box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2);
   }
+
+  ${({ theme }) => theme.media.phone} {
+    width: 100%;
+  }
 `;
 
 const FlowStepMeta = styled.div`
@@ -176,6 +210,11 @@ const FlowStepMeta = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+
+  ${({ theme }) => theme.media.phone} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const FlowConnector = styled.div`
@@ -219,6 +258,10 @@ const FlowStatusSelect = styled.select`
   border-radius: 10px;
   padding: 4px 8px;
   font-size: 12px;
+
+  ${({ theme }) => theme.media.phone} {
+    width: 100%;
+  }
 `;
 
 const FlowStepActions = styled.div`
@@ -259,16 +302,29 @@ const FlowAddRow = styled.div`
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
+
+  ${({ theme }) => theme.media.phone} {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const FlowAddInput = styled(FlowTitleInput)`
   min-width: 220px;
+
+  ${({ theme }) => theme.media.phone} {
+    min-width: 0;
+  }
 `;
 
 const DetailsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+
+  ${({ theme }) => theme.media.phone} {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
 `;
 
 const DetailBlock = styled.div`

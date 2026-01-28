@@ -14,5 +14,17 @@ declare module "styled-components" {
     };
     shadow: string;
     shadowStrong: string;
+    breakpoints: {
+      phoneMax: number;
+      tabletMax: number;
+      desktopMax: number;
+      largeMin: number;
+    };
+    media: {
+      phone: string;
+      tablet: string;
+      desktop: string;
+      large: string;
+    };
   }
 }

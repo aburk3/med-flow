@@ -14,12 +14,18 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial,
       "Noto Sans", "Liberation Sans", sans-serif;
+    font-size: 16px;
     color: ${({ theme }) => theme.colors.textPrimary};
     background: radial-gradient(circle at top left, rgba(125, 211, 252, 0.25), transparent 45%),
       radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.25), transparent 50%),
       linear-gradient(135deg, #0b1221 0%, #0f1b33 50%, #0c1428 100%);
     background-attachment: fixed;
     overflow-x: hidden;
+
+    ${({ theme }) => theme.media.phone} {
+      font-size: 15px;
+      background-attachment: scroll;
+    }
   }
 
   a {
