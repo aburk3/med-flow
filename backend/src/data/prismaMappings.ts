@@ -36,13 +36,13 @@ export const toApiPatientFlowStage = (
 ): PatientFlowStage => patientStageToApi[stage];
 
 const patientIntakeStatusToPrisma = {
-  sent: "sent",
+  in_progress: "in_progress",
   complete: "complete",
   incomplete: "incomplete",
 } satisfies Record<PatientIntakeStatus, PrismaPatientIntakeStatus>;
 
 const patientIntakeStatusToApi = {
-  sent: "sent",
+  in_progress: "in_progress",
   complete: "complete",
   incomplete: "incomplete",
 } satisfies Record<PrismaPatientIntakeStatus, PatientIntakeStatus>;

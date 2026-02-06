@@ -78,6 +78,47 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /api/patients/{id}:
+    patch:
+      summary: Update patient
+      operationId: updatePatient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientUpdateRequest"
+      responses:
+        "200":
+          description: Patient updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /api/appointments:
     get:
       summary: Appointments
@@ -328,9 +369,9 @@ components:
     PatientIntakeStatus:
       type: string
       enum:
-        - sent
-        - complete
         - incomplete
+        - in_progress
+        - complete
     AppointmentStatus:
       type: string
       enum:
@@ -398,6 +439,8 @@ components:
           type: string
         phoneNumber:
           type: string
+        email:
+          type: string
         emergencyContact:
           type: string
         intakeStatus:
@@ -408,6 +451,13 @@ components:
           $ref: "#/components/schemas/PatientRisk"
         riskReason:
           type: string
+    PatientUpdateRequest:
+      type: object
+      required:
+        - intakeStatus
+      properties:
+        intakeStatus:
+          $ref: "#/components/schemas/PatientIntakeStatus"
     Appointment:
       type: object
       required:

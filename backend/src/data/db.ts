@@ -23,6 +23,7 @@ import {
   toApiPatientFlowStage,
   toApiPatientIntakeStatus,
   toPrismaAppointmentFlowStepStatus,
+  toPrismaPatientIntakeStatus,
 } from "./prismaMappings.js";
 import { getNextAppointmentFlowStepId } from "./idFactory.js";
 
@@ -44,6 +45,7 @@ const toApiPatientBase = (
   stage: toApiPatientFlowStage(patient.stage),
   dateOfBirth: patient.dateOfBirth.toISOString(),
   phoneNumber: patient.phoneNumber,
+  email: patient.email ?? undefined,
   emergencyContact: patient.emergencyContact,
   intakeStatus: toApiPatientIntakeStatus(patient.intakeStatus),
   primaryPhysicianId: patient.primaryPhysicianId,
@@ -95,8 +97,89 @@ export const getPhysicians = async (): Promise<Physician[]> => {
 };
 
 export const getPatients = async (): Promise<Patient[]> => {
+  // #region agent log
+  fetch("http://127.0.0.1:7242/ingest/3cb59855-1ad4-49d9-85f7-8f313964d854", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sessionId: "debug-session",
+      runId: "pre-fix",
+      hypothesisId: "H1",
+      location: "backend/src/data/db.ts:97",
+      message: "getPatients: start",
+      data: { hasDatabaseUrl: Boolean(process.env.DATABASE_URL) },
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {});
+  // #endregion
+
   const [patients, noShowAppointments] = await Promise.all([
-    prisma.patient.findMany(),
+    (async () => {
+      // #region agent log
+      fetch("http://127.0.0.1:7242/ingest/3cb59855-1ad4-49d9-85f7-8f313964d854", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: "debug-session",
+          runId: "pre-fix",
+          hypothesisId: "H2",
+          location: "backend/src/data/db.ts:108",
+          message: "getPatients: before prisma.patient.findMany",
+          data: {},
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+
+      try {
+        const result = await prisma.patient.findMany();
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/3cb59855-1ad4-49d9-85f7-8f313964d854",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId: "debug-session",
+              runId: "pre-fix",
+              hypothesisId: "H2",
+              location: "backend/src/data/db.ts:120",
+              message: "getPatients: prisma.patient.findMany success",
+              data: { count: result.length },
+              timestamp: Date.now(),
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
+
+        return result;
+      } catch (error) {
+        const maybeError = error as { code?: string; meta?: unknown; message?: string };
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/3cb59855-1ad4-49d9-85f7-8f313964d854",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId: "debug-session",
+              runId: "pre-fix",
+              hypothesisId: "H3",
+              location: "backend/src/data/db.ts:134",
+              message: "getPatients: prisma.patient.findMany error",
+              data: {
+                code: maybeError.code ?? "unknown",
+                message: maybeError.message ?? "unknown",
+                meta: maybeError.meta ?? null,
+              },
+              timestamp: Date.now(),
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
+        throw error;
+      }
+    })(),
     prisma.appointment.findMany({
       where: {
         status: "no_show",
@@ -124,6 +207,42 @@ export const getAppointments = async (
   });
 
   return appointments.map(toApiAppointment);
+};
+
+export const updatePatientIntakeStatus = async (
+  patientId: string,
+  intakeStatus: Patient["intakeStatus"]
+): Promise<Patient | null> => {
+  const existingPatient = await prisma.patient.findUnique({
+    where: { id: patientId },
+  });
+
+  if (!existingPatient) {
+    return null;
+  }
+
+  const [updatedPatient, noShowAppointments] = await Promise.all([
+    prisma.patient.update({
+      where: { id: patientId },
+      data: {
+        intakeStatus: toPrismaPatientIntakeStatus(intakeStatus),
+      },
+    }),
+    prisma.appointment.findMany({
+      where: {
+        status: "no_show",
+        patientId,
+      },
+    }),
+  ]);
+
+  const noShowCounts = buildNoShowCountsFromAppointments(noShowAppointments);
+  const [patientWithRisk] = applyRiskToPatients(
+    [toApiPatientBase(updatedPatient)],
+    noShowCounts
+  );
+
+  return patientWithRisk;
 };
 
 export const getAppointmentDetail = async (

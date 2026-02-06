@@ -73,14 +73,18 @@ declare namespace Components {
             stage: PatientFlowStage;
             dateOfBirth: string;
             phoneNumber: string;
+            email?: string;
             emergencyContact: string;
             intakeStatus: PatientIntakeStatus;
             primaryPhysicianId: string;
             risk: PatientRisk;
             riskReason: string;
         }
+        export interface PatientUpdateRequest {
+            intakeStatus: PatientIntakeStatus;
+        }
         export type PatientFlowStage = "Initial Contact" | "First Meeting" | "Scheduled Surgery" | "Pre-Op Clearance" | "Post-Op Follow Up";
-        export type PatientIntakeStatus = "sent" | "complete" | "incomplete";
+        export type PatientIntakeStatus = "incomplete" | "in_progress" | "complete";
         export type PatientRisk = "low" | "medium" | "high";
         export interface Physician {
             id: string;

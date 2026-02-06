@@ -42,6 +42,7 @@ const seed = async () => {
     stage: toPrismaPatientFlowStage(patient.stage),
     dateOfBirth: new Date(patient.dateOfBirth),
     phoneNumber: patient.phoneNumber,
+    email: patient.email ?? null,
     emergencyContact: patient.emergencyContact,
     intakeStatus: toPrismaPatientIntakeStatus(patient.intakeStatus),
     primaryPhysicianId: patient.primaryPhysicianId,

@@ -24,4 +24,8 @@ const DetailTitle = styled.h2`
   }
 `;
 
-export { DetailCardContainer, DetailTitle };
+const DetailLine = styled.div`
+  margin: 4px 0 0;
+`;
+
+export { DetailCardContainer, DetailLine, DetailTitle };

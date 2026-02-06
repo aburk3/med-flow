@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import type { ChangeEvent, ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SubtleText } from "@/styles/glass";
 import { Header, Main, Page, Title } from "@/components/Layout/styles";
@@ -11,12 +12,21 @@ import { PatientDetailStatus } from "@/pages/Patients/PatientDetail/type";
 import { PATIENT_DETAIL_TEXT } from "@/pages/Patients/PatientDetail/constants";
 import { PatientRiskSummary } from "@/pages/Patients/PatientDetail/PatientRiskSummary";
 import { PatientAppointmentsTable } from "@/pages/Patients/PatientDetail/PatientAppointmentsTable";
+import type { PatientIntakeStatus } from "@/types/api";
+import {
+  IntakeStatusLabel,
+  IntakeStatusRow,
+  IntakeStatusSelect,
+} from "@/pages/Patients/PatientDetail/styles";
 
-const formatIntakeStatus = (status: string) =>
-  status
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+const INTAKE_STATUS_OPTIONS = [
+  { value: "incomplete", label: "Incomplete" },
+  { value: "in_progress", label: "In progress" },
+  { value: "complete", label: "Complete" },
+] as const;
+
+const isPatientIntakeStatus = (value: string): value is PatientIntakeStatus =>
+  INTAKE_STATUS_OPTIONS.some((option) => option.value === value);
 
 const formatDate = (value: string) => {
   const parsed = new Date(value);
@@ -32,9 +42,46 @@ const formatDate = (value: string) => {
 
 const PatientDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { appointments, effectiveStatus, patient, physician } = usePatientDetail(id);
+  const { appointments, effectiveStatus, patient, physician, updateIntakeStatus } =
+    usePatientDetail(id);
+  const [intakeStatus, setIntakeStatus] = useState<PatientIntakeStatus>("incomplete");
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const detailLines = useMemo(() => {
+  useEffect(() => {
+    if (patient) {
+      setIntakeStatus(patient.intakeStatus);
+    }
+  }, [patient]);
+
+  const handleIntakeStatusChange = useCallback(
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      if (!patient) {
+        return;
+      }
+
+      const nextStatus = event.target.value;
+      if (!isPatientIntakeStatus(nextStatus)) {
+        return;
+      }
+
+      const previousStatus = patient.intakeStatus;
+
+      setIntakeStatus(nextStatus);
+      setIsUpdating(true);
+
+      updateIntakeStatus(nextStatus)
+        .then(() => {
+          setIsUpdating(false);
+        })
+        .catch(() => {
+          setIntakeStatus(previousStatus);
+          setIsUpdating(false);
+        });
+    },
+    [patient, updateIntakeStatus]
+  );
+
+  const detailLines = useMemo<ReactNode[]>(() => {
     if (effectiveStatus === PatientDetailStatus.NotFound) {
       return [PATIENT_DETAIL_TEXT.notFound];
     }
@@ -43,19 +90,53 @@ const PatientDetail = () => {
       return [PATIENT_DETAIL_TEXT.loadingDetails];
     }
 
-    return [
+    const lines: ReactNode[] = [
       `${PATIENT_DETAIL_TEXT.dobLabel} ${formatDate(patient.dateOfBirth)}`,
       `${PATIENT_DETAIL_TEXT.phoneLabel} ${patient.phoneNumber}`,
-      `${PATIENT_DETAIL_TEXT.emergencyContactLabel} ${patient.emergencyContact}`,
-      `${PATIENT_DETAIL_TEXT.intakeLabel} ${formatIntakeStatus(
-        patient.intakeStatus
-      )}`,
+    ];
+
+    if (patient.email) {
+      lines.push(`${PATIENT_DETAIL_TEXT.emailLabel} ${patient.email}`);
+    }
+
+    lines.push(`${PATIENT_DETAIL_TEXT.emergencyContactLabel} ${patient.emergencyContact}`);
+
+    lines.push(
+      <IntakeStatusRow key="intake-status">
+        <IntakeStatusLabel htmlFor="patient-intake-status">
+          {PATIENT_DETAIL_TEXT.intakeLabel}
+        </IntakeStatusLabel>
+        <IntakeStatusSelect
+          id="patient-intake-status"
+          value={intakeStatus}
+          onChange={handleIntakeStatusChange}
+          disabled={!patient || effectiveStatus !== PatientDetailStatus.Ready || isUpdating}
+        >
+          {INTAKE_STATUS_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </IntakeStatusSelect>
+      </IntakeStatusRow>
+    );
+
+    lines.push(
       `${PATIENT_DETAIL_TEXT.stageLabel} ${patient.stage}`,
       physician
         ? formatPhysicianName(physician)
-        : PATIENT_DETAIL_TEXT.assignedPhysicianFallback,
-    ];
-  }, [effectiveStatus, patient, physician]);
+        : PATIENT_DETAIL_TEXT.assignedPhysicianFallback
+    );
+
+    return lines;
+  }, [
+    effectiveStatus,
+    patient,
+    physician,
+    handleIntakeStatusChange,
+    intakeStatus,
+    isUpdating,
+  ]);
 
   const subtitle =
     effectiveStatus === PatientDetailStatus.NotFound

@@ -20,7 +20,7 @@ describe("Patients page", () => {
         dateOfBirth: "1991-02-14",
         phoneNumber: "(415) 555-0142",
         emergencyContact: "Miguel Ramirez · (415) 555-0177",
-        intakeStatus: "sent",
+        intakeStatus: "incomplete",
         primaryPhysicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         risk: "low",
         riskReason: "No missed appointments.",

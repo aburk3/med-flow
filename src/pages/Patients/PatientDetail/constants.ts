@@ -10,6 +10,7 @@ const PATIENT_DETAIL_TEXT = {
   errorDetails: "Unable to load patient details.",
   dobLabel: "DOB:",
   phoneLabel: "Phone:",
+  emailLabel: "Email:",
   emergencyContactLabel: "Emergency:",
   intakeLabel: "Intake:",
   stageLabel: "Stage:",

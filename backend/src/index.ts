@@ -12,6 +12,7 @@ import {
   deleteAppointmentFlowStep,
   reorderAppointmentFlowStep,
   updateAppointmentFlowStep,
+  updatePatientIntakeStatus,
 } from "./data/db.js";
 import type { AppointmentFlowStepStatus } from "./types.js";
 
@@ -58,6 +59,10 @@ const isAppointmentFlowStepStatus = (
   typeof value === "string" &&
   ["not_started", "in_progress", "incomplete", "complete"].includes(value);
 
+const isPatientIntakeStatus = (value: unknown): value is string =>
+  typeof value === "string" &&
+  ["incomplete", "in_progress", "complete"].includes(value);
+
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === "string" && value.trim().length > 0;
 
@@ -87,6 +92,29 @@ app.get("/api/patients", async (_request, response) => {
   try {
     const patients = await getPatients();
     response.json(patients);
+  } catch (error) {
+    handleError(response, error);
+  }
+});
+
+app.patch("/api/patients/:id", async (request, response) => {
+  const intakeStatus = request.body?.intakeStatus;
+
+  if (!isPatientIntakeStatus(intakeStatus)) {
+    response.status(400).json({ error: "Invalid intake status." });
+    return;
+  }
+
+  try {
+    const patient = await updatePatientIntakeStatus(
+      request.params.id,
+      intakeStatus
+    );
+    if (!patient) {
+      response.status(404).json({ error: "Patient not found." });
+      return;
+    }
+    response.json(patient);
   } catch (error) {
     handleError(response, error);
   }

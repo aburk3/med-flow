@@ -4,6 +4,7 @@ import type {
   AppointmentFlowStepStatus,
   DashboardPayload,
   Patient,
+  PatientIntakeStatus,
   Physician,
 } from "@/types/api";
 
@@ -58,6 +59,18 @@ const fetchPhysicians = (): Promise<Physician[]> =>
 
 const fetchAppointments = (): Promise<Appointment[]> =>
   request<Appointment[]>("/api/appointments");
+
+const updatePatientIntakeStatus = (
+  patientId: string,
+  intakeStatus: PatientIntakeStatus
+): Promise<Patient> =>
+  request<Patient>(`/api/patients/${patientId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ intakeStatus }),
+  });
 
 const fetchAppointmentDetail = (appointmentId: string): Promise<AppointmentDetail> =>
   request<AppointmentDetail>(`/api/appointments/${appointmentId}`);
@@ -122,6 +135,7 @@ export {
   fetchDashboard,
   fetchPatients,
   fetchPhysicians,
+  updatePatientIntakeStatus,
   createAppointmentFlowStep,
   deleteAppointmentFlowStep,
   reorderAppointmentFlowStep,

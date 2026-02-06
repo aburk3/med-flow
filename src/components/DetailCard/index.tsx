@@ -1,11 +1,12 @@
+import type { ReactNode } from "react";
 import { Badge, SubtleText } from "@/styles/glass";
 import { DetailBadge } from "@/components/DetailCard/type";
-import { DetailCardContainer, DetailTitle } from "./styles";
+import { DetailCardContainer, DetailLine, DetailTitle } from "./styles";
 
 type DetailCardProps = {
   badge: DetailBadge;
   title: string;
-  lines: string[];
+  lines: ReactNode[];
 };
 
 const DetailCard = ({ badge, title, lines }: DetailCardProps) => {
@@ -13,9 +14,13 @@ const DetailCard = ({ badge, title, lines }: DetailCardProps) => {
     <DetailCardContainer>
       <Badge>{badge}</Badge>
       <DetailTitle>{title}</DetailTitle>
-      {lines.map((line) => (
-        <SubtleText key={line}>{line}</SubtleText>
-      ))}
+      {lines.map((line, index) =>
+        typeof line === "string" ? (
+          <SubtleText key={`${line}-${index}`}>{line}</SubtleText>
+        ) : (
+          <DetailLine key={index}>{line}</DetailLine>
+        )
+      )}
     </DetailCardContainer>
   );
 };

@@ -24,7 +24,7 @@ enum AppointmentStatus {
 }
 
 enum PatientIntakeStatus {
-  sent
+  in_progress
   complete
   incomplete
 }
@@ -63,8 +63,9 @@ model Patient {
   stage              PatientFlowStage
   dateOfBirth        DateTime          @map("date_of_birth") @db.Date
   phoneNumber        String            @map("phone_number")
+  email              String?           @map("email")
   emergencyContact   String            @map("emergency_contact")
-  intakeStatus       PatientIntakeStatus @default(sent) @map("intake_status")
+  intakeStatus       PatientIntakeStatus @default(incomplete) @map("intake_status")
   primaryPhysicianId String            @map("primary_physician_id") @db.Uuid
   primaryPhysician   Physician         @relation(fields: [primaryPhysicianId], references: [id])
   appointments       Appointment[]

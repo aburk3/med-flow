@@ -339,7 +339,7 @@ describe("Appointment detail page", () => {
           "22222222-3333-4ccc-8ddd-333333333333",
           "33333333-4444-4ddd-8eee-444444444444",
         ]
-      ]);
+      );
     });
 
     confirmSpy.mockRestore();

@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
-import { fetchAppointments, fetchPatients, fetchPhysicians } from "@/lib/api";
-import type { Appointment, Patient, Physician } from "@/types/api";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  fetchAppointments,
+  fetchPatients,
+  fetchPhysicians,
+  updatePatientIntakeStatus,
+} from "@/lib/api";
+import type { Appointment, Patient, PatientIntakeStatus, Physician } from "@/types/api";
 import { PatientDetailStatus } from "@/pages/Patients/PatientDetail/type";
 
 const usePatientDetail = (id: string | undefined) => {
@@ -10,6 +15,13 @@ const usePatientDetail = (id: string | undefined) => {
   const [status, setStatus] = useState<PatientDetailStatus>(
     PatientDetailStatus.Loading
   );
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -63,6 +75,23 @@ const usePatientDetail = (id: string | undefined) => {
     };
   }, [id]);
 
+  const handleUpdateIntakeStatus = useCallback(
+    async (intakeStatus: PatientIntakeStatus) => {
+      if (!id) {
+        return null;
+      }
+
+      const updatedPatient = await updatePatientIntakeStatus(id, intakeStatus);
+
+      if (isMountedRef.current) {
+        setPatient(updatedPatient);
+      }
+
+      return updatedPatient;
+    },
+    [id]
+  );
+
   const effectiveStatus = id ? status : PatientDetailStatus.NotFound;
 
   return {
@@ -70,6 +99,7 @@ const usePatientDetail = (id: string | undefined) => {
     effectiveStatus,
     patient,
     physician,
+    updateIntakeStatus: handleUpdateIntakeStatus,
   };
 };
 

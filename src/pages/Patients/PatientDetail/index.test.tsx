@@ -20,8 +20,9 @@ describe("Patient detail page", () => {
         stage: "Scheduled Surgery",
         dateOfBirth: "1979-11-05",
         phoneNumber: "(415) 555-0113",
+        email: "noah.kim@example.com",
         emergencyContact: "Hana Kim · (415) 555-0133",
-        intakeStatus: "complete",
+        intakeStatus: "in_progress",
         primaryPhysicianId: "2b6f1d3e-6d4a-4e5c-9a1c-1f2e3d4c5b6a",
         risk: "high",
         riskReason: "Missed 4 appointments.",
@@ -61,8 +62,10 @@ describe("Patient detail page", () => {
     ).toBeVisible();
     expect(screen.getByText("High risk")).toBeVisible();
     expect(screen.getByText("Missed 4 appointments.")).toBeVisible();
-    expect(screen.getByText(/Intake:\s+Complete/)).toBeVisible();
+    const intakeSelect = screen.getByLabelText("Intake:");
+    expect(intakeSelect).toHaveValue("in_progress");
     expect(screen.getByText(/Phone:\s+\(415\) 555-0113/)).toBeVisible();
+    expect(screen.getByText(/Email:\s+noah.kim@example.com/)).toBeVisible();
     expect(screen.getByText(/Emergency:\s+Hana Kim/)).toBeVisible();
     const table = screen.getByRole("table");
     expect(
